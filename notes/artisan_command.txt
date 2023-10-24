@@ -1,0 +1,31 @@
+#start server
+php artisan serve
+
+#view the router list
+php artisan route:list
+
+#to create controller
+//for single file
+php artisan make:controller filename
+
+//for creating a file with desired folder
+php artisan make:controller folder//filename
+
+#to create table column in database
+php artisan make:migration create_//dbname_table
+
+#to run the migration and to successfully create the database table
+php artisan migrate
+
+#to run the db seeder automatically create random fake data in our database
+php artisan db:seed
+php artisan migrate:refresh --seed
+
+#to delete or refresh data exist in the database table
+php artisan migrate:fresh
+
+#to create own factory
+php artisan make:factory //filename
+
+#to get the bootstrap as ui main
+php artisan ui bootstrap
