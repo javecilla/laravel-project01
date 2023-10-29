@@ -1,0 +1,7 @@
+			$table->unsignedBigInteger('student_id');
+			$table->foreign('student_id')
+				->references('sid')
+				->on('students')
+				->onDelete('CASCADE')
+				->onUpdate('CASCADE');
+			$table->string('name');

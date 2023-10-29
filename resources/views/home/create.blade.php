@@ -7,22 +7,22 @@
       </div>
       <div class="col-md-10 mx-auto col-lg-5">
         {{-- Server response alert message for submission success or not --}}
-        <x-server-response/>
-        <form method="POST" action="/students/registration/"
+        {{-- <x-server-response/> --}}
+        <form method="POST" action="{{ url('/students/registration/') }}"
+          enctype="multipart/form-data"
           class="p-4 p-md-5 border rounded-3 bg-light">
-          {{-- @csrf is used to prevent scripting attacks--}}
-          @csrf
+          @csrf {{-- to prevent crosssite scripting attacks--}}
           <label class="mb-2">Account Information</label>
           <div class="form-floating mb-2">
-            <input type="text" placeholder="Username" autocomplete="off"
-              class="form-control {{ $errors->has('username') ? 'is-invalid' : '' }}"
-              id="username" name="username" value="{{ old('username') }}"/>
+            <input type="text" placeholder="Email" autocomplete="off"
+              class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
+              id="email" name="email" value="{{ old('email') }}"/>
             <div class="invalid-feedback">
-              @error('username')
+              @error('email')
                 {{ $message }}
               @enderror
             </div>
-            <label for="username">Username <span class="text-danger">*</span></label>
+            <label for="email">Email <span class="text-danger">*</span></label>
           </div>
           <div class="form-floating mb-3">
             <input type="password" placeholder="Password"
@@ -34,6 +34,18 @@
               @enderror
             </div>
             <label for="password">Password <span class="text-danger">*</span></label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" placeholder="Confirm Password"
+              class="form-control {{ $errors->has('password_confirmation') ? 'is-invalid' : '' }}"
+              id="password_confirmation" name="password_confirmation"
+              value="{{ old('password_confirmation') }}"/>
+            <div class="invalid-feedback">
+              @error('password_confirmation')
+                {{ $message }}
+              @enderror
+            </div>
+            <label for="password_confirmation">Confirm Password <span class="text-danger">*</span></label>
           </div>
           <div class="mb-3">
             <label class="mb-2">Student Information</label>
@@ -104,6 +116,23 @@
             </div>
             <label for="section">Section<span class="text-danger">*</span></label>
           </div>
+          <div class="mb-3">
+            <label class="mb-2">Student Profile</label>
+          </div>
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="profile">
+              <i class="fa-solid fa-image text-muted"></i>
+            </label>
+            <input type="file" class="form-control {{ $errors->has('profile') ? 'is-invalid' : '' }}"
+              name="profile" id="profile" accept="images/.png, .jpg, .jpeg"
+            />
+            <div class="invalid-feedback">
+              @error('profile')
+                {{ $message }}
+              @enderror
+            </div>
+          </div>
+
           <button class="btn btn-primary btn-lg w-100 mb-1 border-0" type="submit">
             Submit</button>
           <a href="/" class="btn btn-light btn-lg w-100 border-0">Back</a>

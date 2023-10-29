@@ -9,12 +9,15 @@ return new class extends Migration {
 	 * Run the migrations.
 	 */
 	public function up(): void {
-		Schema::create('students', function (Blueprint $table) {
-			$table->id('sid');
-			$table->string('name');
-			$table->string('year');
-			$table->string('course');
-			$table->string('section');
+		Schema::create('posts', function (Blueprint $table) {
+			$table->bigIncrements('pid');
+			$table->foreignId('student_id')
+				->constrained()
+				->references('sid')
+				->on('students')
+				->onDelete('CASCADE')
+				->onUpdate('CASCADE');
+			$table->text('description');
 			$table->timestamps();
 		});
 	}
@@ -23,6 +26,6 @@ return new class extends Migration {
 	 * Reverse the migrations.
 	 */
 	public function down(): void {
-		Schema::dropIfExists('students');
+		Schema::dropIfExists('posts');
 	}
 };

@@ -6,15 +6,34 @@
         <p class="col-lg-10 fs-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce varius ac ex sollicitudin imperdiet. Morbi egestas sit amet justo et iaculis. Praesent eget sem malesuada, porttitor magna et, accumsan mi. Pellentesque vel eleifend lacus. Fusce eros arcu, posuere sed pulvinar bibendum, egestas sit amet nibh</p>
       </div>
       <div class="col-md-10 mx-auto col-lg-5">
-        <form class="p-4 p-md-5 border rounded-3 bg-light">
+        <form method="POST" action="{{ url('/users/autheticate/') }}"
+        class="p-4 p-md-5 border rounded-3 bg-light">
+          @csrf
           <label class="mb-2">Login your account</label>
           <div class="form-floating mb-2">
-            <input type="text" class="form-control" id="username" placeholder="Username"
-              autocomplete="off" />
-            <label for="username">Username <span class="text-danger">*</span></label>
+            <input type="text" autocomplete="off"  placeholder="Email"
+              class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
+              id="email" name="email"
+              value="{{ old('email') }}"
+            />
+            <div class="invalid-feedback">
+              @error('email')
+                {{ $message }}
+              @enderror
+            </div>
+            <label for="email">Email <span class="text-danger">*</span></label>
           </div>
           <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="password" placeholder="Password">
+            <input type="password" placeholder="Password"
+              class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
+              id="password" name="password"
+              value="{{ old('password') }}"
+            />
+            <div class="invalid-feedback">
+              @error('password')
+                {{ $message }}
+              @enderror
+            </div>
             <label for="password">Password <span class="text-danger">*</span></label>
           </div>
           <div class="mb-3"></div>

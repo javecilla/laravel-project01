@@ -1,19 +1,31 @@
-@if(session('success'))
-  <div role="alert"
-  	x-data="{show: true}"
-  	x-init="setTimeout(() => show = false, 2000)"
-  	x-show="show"
-  	class="alert alert-success d-flex align-items-center" >
-    <i class="fa-solid fa-circle-check"></i>&nbsp;
-    <div>{{ session('success') }}</div>
-  </div>
-@elseif(session('error'))
-  <div role="alert"
-  	x-data="{show: true}"
-  	x-init="setTimeout(() => show = false, 2000)"
-  	x-show="show"
-  	class="alert alert-danger d-flex align-items-center" >
-    <i class="fa-solid fa-circle-exclamation"></i>&nbsp;
-    <div>{{ session('error') }}</div>
-  </div>
+{{-- Message Alert --}}
+@if(session('success') || session('error'))
+	<script>
+	  jQuery(document).ready(function() {
+	    toastr.options = {
+	     	"debug": false,
+	     	"rtl": false,
+	     	"newestOnTop": false,
+	     	"preventDuplicates": false,
+	     	"progressBar": true,
+	    	"showDuration": "300",
+      		"hideDuration": "1000",
+	     	"timeOut": 3000,
+	     	"extendedTimeOut": 0,
+	     	"closeButton": true,
+	     	"closeMethod": 'fadeOut',
+	     	"closeEasing": 'swing',
+	     	"hideEasing": "linear",
+	     	"showMethod": "fadeIn",
+       		"hideMethod": "fadeOut",
+	    	"positionClass": 'toast-bottom-right',
+	    };
+
+	    @if(session('success'))
+	      toastr.success("{{ session('success') }}");
+	    @else
+	      toastr.error("{{ session('error') }}");
+	    @endif
+	  });
+	</script>
 @endif

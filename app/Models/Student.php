@@ -2,53 +2,51 @@
 
 namespace App\Models;
 
+use App\Models\Comment;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model {
+	use HasFactory;
 	//Use own primary key instead of primary by Laravel
 	protected $primaryKey = 'sid';
 	//Specify the field column in database table 'students' that is fillable
-	protected $fillable = ['name', 'year', 'course', 'section'];
+	protected $fillable = ['user_id', 'name', 'year', 'course', 'section', 'profile'];
 
-	//Filters the student by their respective courses, year level and section
-	public function filterStudents(array $filters) {
-		// latest() get the data from db with the latest or in a descending order
-		// oldest() get the data from db with the oldest or in a ascending order
-		$query = Student::latest(); //all()
-		// Check if filter request is match to the following:
-		if ($filters['course'] ?? false) {
-			$query->where('course', 'like', '%' . $filters['course'] . '%');
+	// To add new student
+	public function addStudentInformation(array $attributes) {
+		$result = $this->create($attributes);
+		if ($result) {
+			return ['success' => true, 'message' => 'Your registration has been completed successfully.'];
 		}
-
-		if ($filters['section'] ?? false) {
-			$query->where('section', 'like', '%' . $filters['section'] . '%');
-		}
-
-		if ($filters['year'] ?? false) {
-			$query->where('year', 'like', '%' . $filters['year'] . '%');
-		}
-
-		if ($filters['search'] ?? false) {
-			//single search query
-			//$query->where('name', 'like', '%' . $filters['search'] . '%');
-
-			//double or multiple search query
-			$query->where('name', 'like', '%' . $filters['search'] . '%')
-				->orWhere('course', 'like', '%' . $filters['search'] . '%');
-		}
-
-		return $query->get(); //$query
+		return ['success' => false, 'message' => 'Failed to register!'];
 	}
 
-	public function addStudentInformation($name, $year, $course, $section) {
-		return $this->create([
-			'name' => $name,
-			'year' => $year,
-			'course' => $course,
-			'section' => $section,
-		]);
+	// To update student
+	public function updateStudentInformation(array $attributes) {
+		$result = $this->update($attributes);
+		if ($result) {
+			return ['success' => true, 'message' => 'Your Information updated successfully.'];
+		}
+		return ['success' => false, 'message' => 'Failed to update information.'];
 	}
 
-	use HasFactory;
+	###[[Methods for Database table relationship]
+
+	// Make this 'students' table have relationship to 'users' table
+	public function user() {
+		return $this->belongsTo(User::class, 'user_id', 'uid');
+	}
+
+	// Make this 'students' table have relationship to 'posts' table
+	public function posts() {
+		return $this->hasMany(Post::class, 'student_id', 'sid');
+	}
+
+	// Make this 'students' table have relationship to 'comments' table
+	public function comments() {
+		return $this->hasMany(Comment::class, 'student_id', 'sid');
+	}
 }

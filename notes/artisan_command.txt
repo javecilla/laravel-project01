@@ -29,3 +29,12 @@ php artisan make:factory //filename
 
 #to get the bootstrap as ui main
 php artisan ui bootstrap
+
+#to have access to the file storage to make it public
+php artisan storage:link
+
+#to query to the database and see inside database table data
+php artisan tinker
+\App\Models\Post::first() //the first data in table
+\App\Models\Post::find(1)  //accessing the data in table by id
+\App\Models\Post::find(1)->student //find the posts for this particular students
